@@ -62,7 +62,8 @@ def main(_argv):
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         if os.getenv('REPLICA') != None:
             out = cv2.VideoWriter(clips_path + "/" + FLAGS.output + os.getenv('REPLICA') , codec, fps, (width, height))
-        out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
+        else:
+            out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
