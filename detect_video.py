@@ -25,7 +25,8 @@ flags.DEFINE_boolean('showout', False, 'path to output video')
 
 
 def main(_argv):
-
+    #wait 30 sec
+    time.sleep(30)
     #access clips folder
     clips_path = './clips'
 
