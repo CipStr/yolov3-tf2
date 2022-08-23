@@ -18,7 +18,7 @@ flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
 flags.DEFINE_integer('size', 416, 'resize images to')
 #flags.DEFINE_string('video', './data/test.mp4',
                     #'path to video file or number for webcam)')
-flags.DEFINE_string('output',True, 'path to output video')
+flags.DEFINE_boolean('output',True, 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
 flags.DEFINE_integer('num_classes', 80, 'number of classes in the model')
 flags.DEFINE_boolean('showout', False, 'path to output video')
