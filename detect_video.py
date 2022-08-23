@@ -1,3 +1,4 @@
+import os
 import time
 from absl import app, flags, logging
 from absl.flags import FLAGS
@@ -24,6 +25,9 @@ flags.DEFINE_boolean('showout', False, 'path to output video')
 
 def main(_argv):
 
+    #access clips folder
+    clips_path = './clips'
+
 
     physical_devices = tf.config.experimental.list_physical_devices('GPU')
     for physical_device in physical_devices:
@@ -45,11 +49,10 @@ def main(_argv):
     try:
         vid = cv2.VideoCapture(int(FLAGS.video))
     except:
-        vid = cv2.VideoCapture(FLAGS.video)
+        #open clip based on replica enviroment variable
+        vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
 
     out = None
-    frames = []
-    output_frames = [[] for i in range(3)]
 
     if FLAGS.output:
         # by default VideoCapture returns float instead of int
@@ -57,6 +60,8 @@ def main(_argv):
         height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
+        if os.getenv('REPLICA') != None:
+            out = cv2.VideoWriter(clips_path + "/" + FLAGS.output + os.getenv('REPLICA') , codec, fps, (width, height))
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
 
     success, img = vid.read()
