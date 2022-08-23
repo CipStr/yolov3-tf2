@@ -15,9 +15,9 @@ flags.DEFINE_string('weights', './checkpoints/yolov3.tf',
                     'path to weights file')
 flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
 flags.DEFINE_integer('size', 416, 'resize images to')
-flags.DEFINE_string('video', './data/test.mp4',
-                    'path to video file or number for webcam)')
-flags.DEFINE_string('output', None, 'path to output video')
+#flags.DEFINE_string('video', './data/test.mp4',
+                    #'path to video file or number for webcam)')
+flags.DEFINE_string('output', './clips/output.avi', 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
 flags.DEFINE_integer('num_classes', 80, 'number of classes in the model')
 flags.DEFINE_boolean('showout', False, 'path to output video')
@@ -46,11 +46,17 @@ def main(_argv):
 
     times = []
 
-    try:
-        vid = cv2.VideoCapture(int(FLAGS.video))
-    except:
+    #try:
+        #vid = cv2.VideoCapture(int(FLAGS.video))
+    #except:
         #open clip based on replica enviroment variable
+        #vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
+    #print clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4"
+    try:
         vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
+    except:
+        print("Error opening video")
+        exit()
 
     out = None
 
@@ -60,8 +66,8 @@ def main(_argv):
         height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
-        if os.getenv('REPLICA') != None:
-            out = cv2.VideoWriter(clips_path + "/" + FLAGS.output + os.getenv('REPLICA') , codec, fps, (width, height))
+        if os.getenv('REPLICA') is not None:
+            out = cv2.VideoWriter(clips_path + "/" + FLAGS.output + os.getenv('REPLICA'), codec, fps, (width, height))
         else:
             out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
 
