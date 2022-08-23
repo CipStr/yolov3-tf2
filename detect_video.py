@@ -1,4 +1,5 @@
 import os
+import random
 import time
 from absl import app, flags, logging
 from absl.flags import FLAGS
@@ -17,7 +18,7 @@ flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
 flags.DEFINE_integer('size', 416, 'resize images to')
 #flags.DEFINE_string('video', './data/test.mp4',
                     #'path to video file or number for webcam)')
-flags.DEFINE_string('output', './clips/output.avi', 'path to output video')
+flags.DEFINE_string('output',True, 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
 flags.DEFINE_integer('num_classes', 80, 'number of classes in the model')
 flags.DEFINE_boolean('showout', False, 'path to output video')
@@ -52,8 +53,9 @@ def main(_argv):
         #open clip based on replica enviroment variable
         #vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
     #print clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4"
+    print(os.getenv('REPLICA'))
     try:
-        vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
+        vid = cv2.VideoCapture(clips_path + '/'+ "part1"+ ".mp4")
     except:
         print("Error opening video")
         exit()
@@ -66,10 +68,13 @@ def main(_argv):
         height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
+        #get random number for output file name
+        rand = random.randint(0, 100)
+
         if os.getenv('REPLICA') is not None:
-            out = cv2.VideoWriter(clips_path + "/" + FLAGS.output + os.getenv('REPLICA'), codec, fps, (width, height))
+            out = cv2.VideoWriter(clips_path + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
         else:
-            out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
+            out = cv2.VideoWriter(clips_path + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
