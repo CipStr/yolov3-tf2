@@ -54,7 +54,7 @@ def main(_argv):
         #open clip based on replica enviroment variable
         #vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
     #print clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4"
-    print(os.getenv('REPLICA'))
+    print(clips_path + '/'+ "part1"+ ".mp4")
     try:
         vid = cv2.VideoCapture(clips_path + '/'+ "part1"+ ".mp4")
     except:
@@ -73,9 +73,9 @@ def main(_argv):
         rand = random.randint(0, 100)
 
         if os.getenv('REPLICA') is not None:
-            out = cv2.VideoWriter(clips_path + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
+            out = cv2.VideoWriter(clips_path + '/' + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
         else:
-            out = cv2.VideoWriter(clips_path + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
+            out = cv2.VideoWriter(clips_path + "/" + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
