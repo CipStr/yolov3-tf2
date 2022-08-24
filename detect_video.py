@@ -32,6 +32,8 @@ def main(_argv):
 
     page = urllib.request.urlopen("http://172.17.0.1:80/container")
     container_number = page.read()
+    # from bytes to string
+    container_number = container_number.decode("utf-8")
     print(container_number)
 
     # access clips folder
