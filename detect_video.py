@@ -111,6 +111,7 @@ def main(_argv):
         success, img = vid.read()
 
     cv2.destroyAllWindows()
+    urllib.request.urlopen("http://172.17.0.1:80/ok")
 
 
 if __name__ == '__main__':
