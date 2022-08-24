@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import urllib.request
 from absl import app, flags, logging
 from absl.flags import FLAGS
 import cv2
@@ -27,7 +28,13 @@ flags.DEFINE_boolean('showout', False, 'path to output video')
 def main(_argv):
     #wait 30 sec
     time.sleep(30)
-    #access clips folder
+    # access "http://localhost:80/container"
+
+    page = urllib.request.urlopen("http://localhost:80/container")
+    container_number = page.read()
+    print(container_number)
+
+    # access clips folder
     clips_path = './clips'
 
 
@@ -54,9 +61,9 @@ def main(_argv):
         #open clip based on replica enviroment variable
         #vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
     #print clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4"
-    print(clips_path + '/'+ "part1"+ ".mp4")
+    print(clips_path + '/'+ "part" + container_number + ".mp4")
     try:
-        vid = cv2.VideoCapture(clips_path + '/'+ "part1"+ ".mp4")
+        vid = cv2.VideoCapture(clips_path + '/'+ "part" + container_number + ".mp4")
     except:
         print("Error opening video")
         exit()
@@ -71,11 +78,7 @@ def main(_argv):
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         #get random number for output file name
         rand = random.randint(0, 100)
-
-        if os.getenv('REPLICA') is not None:
-            out = cv2.VideoWriter(clips_path + '/' + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
-        else:
-            out = cv2.VideoWriter(clips_path + "/" + "part1_output" + str(rand) + ".avi", codec, fps, (width, height))
+        out = cv2.VideoWriter(clips_path + "/" + "part" + container_number + str(rand) + ".avi", codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
