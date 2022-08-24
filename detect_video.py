@@ -61,9 +61,9 @@ def main(_argv):
         #open clip based on replica enviroment variable
         #vid = cv2.VideoCapture(clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4")
     #print clips_path + '/'+ "part" + os.getenv('REPLICA') + ".mp4"
-    print(clips_path + '/'+ "part" + container_number + ".mp4")
+    print(clips_path + '/'+ "part" + str(container_number) + ".mp4")
     try:
-        vid = cv2.VideoCapture(clips_path + '/'+ "part" + container_number + ".mp4")
+        vid = cv2.VideoCapture(clips_path + '/'+ "part" + str(container_number) + ".mp4")
     except:
         print("Error opening video")
         exit()
@@ -78,7 +78,7 @@ def main(_argv):
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         #get random number for output file name
         rand = random.randint(0, 100)
-        out = cv2.VideoWriter(clips_path + "/" + "part" + container_number + str(rand) + ".avi", codec, fps, (width, height))
+        out = cv2.VideoWriter(clips_path + "/" + "part" + str(container_number) + ".avi", codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
