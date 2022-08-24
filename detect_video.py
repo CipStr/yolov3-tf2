@@ -37,7 +37,8 @@ def main(_argv):
     print(container_number)
 
     # access clips folder
-    clips_path = './clips/output'
+    clips_path = './clips'
+    output = './clips/output'
 
 
     physical_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -80,7 +81,7 @@ def main(_argv):
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         #get random number for output file name
         rand = random.randint(0, 100)
-        out = cv2.VideoWriter(clips_path + "/" + "part" + str(container_number) + ".avi", codec, fps, (width, height))
+        out = cv2.VideoWriter(output + "/" + "part" + str(container_number) + ".avi", codec, fps, (width, height))
 
     success, img = vid.read()
     while success:
