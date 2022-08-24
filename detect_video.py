@@ -26,6 +26,10 @@ flags.DEFINE_boolean('showout', False, 'path to output video')
 
 
 def main(_argv):
+    # create directories if they don't exist
+    if not os.path.exists('./clips/output'):
+        os.makedirs('./clips/output')
+
     #wait 30 sec
     time.sleep(30)
     # access "http://localhost:80/container"
@@ -37,7 +41,7 @@ def main(_argv):
     print(container_number)
 
     # access clips folder
-    clips_path = './clips'
+    clips_path = './clips/output'
 
 
     physical_devices = tf.config.experimental.list_physical_devices('GPU')
