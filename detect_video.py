@@ -30,7 +30,7 @@ def main(_argv):
     time.sleep(30)
     # access "http://localhost:80/container"
 
-    page = urllib.request.urlopen("http://localhost:80/container")
+    page = urllib.request.urlopen("http://172.17.0.1:80/container")
     container_number = page.read()
     print(container_number)
 
